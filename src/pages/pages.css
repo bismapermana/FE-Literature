@@ -1,0 +1,122 @@
+/* LANDING PAGE */
+
+.button-register {
+  width: 211px;
+  height: 50px;
+  background-color: #f9f9f9;
+  border: #f9f9f9;
+  color: black;
+  font-weight: bold;
+}
+.button-login {
+  width: 211px;
+  height: 50px;
+  background-color: #af2e1c;
+  border: #af2e1c;
+  font-weight: bold;
+}
+
+.text-title-landing {
+  font-weight: 700;
+  font-size: 80px;
+  font-style: italic;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.text-desc-landing {
+  font-weight: normal;
+  font-size: 18px;
+  margin-bottom: 60px;
+}
+
+/* DETAIL PAGE */
+
+.title-text {
+  color: white;
+  font-size: 36px;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: bolder;
+  overflow: hidden;
+}
+
+.detail-text {
+  color: #929292;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 0;
+  margin-bottom: 40px;
+}
+
+.button-download {
+  border-color: #af2e1c;
+  color: white;
+  width: 144px;
+  height: 50px;
+  background: #af2e1c;
+}
+
+.button-bookmark {
+  border-color: #af2e1c;
+  background-color: #af2e1c;
+  width: 212px;
+  height: 50px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+/* SEARCH PAGE */
+
+.input-search {
+  width: 100%;
+  color: antiquewhite;
+  border: 2px solid #bcbcbc;
+  background-color: rgba(210, 210, 210, 0.25);
+}
+
+.button-search {
+  background-color: #af2e1c;
+  border-color: #af2e1c;
+}
+
+/* SEARCH RESULT */
+.result-text-title {
+  font-weight: 700;
+  font-style: normal;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 24px;
+  line-height: 29px;
+  color: #fff;
+}
+
+.result-text-desc span {
+  color: #929292;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.input-result {
+  width: 50%;
+  color: antiquewhite;
+  border: 2px solid #bcbcbc;
+  background-color: rgba(210, 210, 210, 0.25);
+}
+
+.text-anytime {
+  cursor: pointer;
+  color: #af2e1c;
+  font-weight: 800;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.form-select {
+  width: 140px;
+  height: 34px;
+  background-color: rgba(210, 210, 210, 0.25);
+  border: 2px solid #bcbcbc;
+  border-radius: 5px;
+  color: #bcbcbc;
+}

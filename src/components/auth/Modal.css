@@ -1,0 +1,30 @@
+.overlay {
+  background-color: rgba(32, 32, 32, 0);
+}
+
+.background-modal {
+  background-color: rgb(29, 26, 26);
+  border-color: rgb(29, 26, 26);
+}
+
+.button-style {
+  background-color: #af2e1c;
+  width: 100%;
+  margin-top: 20px;
+  border-color: #af2e1c;
+  font-weight: bolder;
+}
+
+.input-style {
+  background-color: rgba(210, 210, 210, 0.25);
+  border: 2px solid #bcbcbc;
+  padding: 10px;
+  width: 100%;
+  color: antiquewhite;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
