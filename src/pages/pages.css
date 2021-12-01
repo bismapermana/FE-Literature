@@ -3,17 +3,17 @@
 .button-register {
   width: 211px;
   height: 50px;
-  background-color: #f9f9f9;
-  border: #f9f9f9;
-  color: black;
-  font-weight: bold;
+  background-color: #f9f9f9 !important;
+  border: #f9f9f9 !important;
+  color: black !important;
+  font-weight: bold !important;
 }
 .button-login {
   width: 211px;
   height: 50px;
   background-color: #af2e1c;
   border: #af2e1c;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 .text-title-landing {
@@ -119,4 +119,14 @@ ul {
   border: 2px solid #bcbcbc;
   border-radius: 5px;
   color: #bcbcbc;
+}
+
+.option-select {
+  background-color: rgba(210, 210, 210, 0.25);
+  color: black;
+}
+
+.react-pdf__Page__canvas {
+  width: 450px !important;
+  height: 270px !important;
 }

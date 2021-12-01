@@ -64,3 +64,9 @@
   font-size: 18px;
   line-height: 18px;
 }
+
+.react-pdf__Page__canvas {
+  width: 250px !important;
+  height: 320px !important;
+  border-radius: 5px;
+}

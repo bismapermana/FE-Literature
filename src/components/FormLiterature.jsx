@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Image } from "react-bootstrap";
 import { API } from "../config/api";
 import "./Component.css";
+import attach from "../assets/attach.png";
+import { useHistory } from "react-router";
+import { Document, Page } from "react-pdf";
+import swal from "sweetalert";
 
 const FormLiterature = () => {
   const [preview, setPreview] = useState(null);
+  const history = useHistory();
   const [form, setForm] = useState({
     title: "",
     publicationDate: "",
@@ -47,13 +52,14 @@ const FormLiterature = () => {
 
       const response = await API.post("/document", data, config);
 
-      console.log(response);
+      if (response.status === 200) {
+        swal("Success!", "success");
+        history.push("./search");
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log(form);
 
   return (
     <>
@@ -94,23 +100,48 @@ const FormLiterature = () => {
             className="rounded input-form mb-3"
             name="author"
           />
-          <input
-            onChange={handleOnChange}
-            placeholder="Attach Book File"
-            className="rounded input-form mb-3"
-            type="file"
-            name="doc"
-          />
+          <div className="d-flex justify-content-between">
+            {preview === null ? (
+              <label className="ml-3">
+                <div className="container-image rounded">
+                  <div>
+                    <p style={{ fontSize: "15px" }}>
+                      <b>Attach Here</b>
+                    </p>
+                  </div>
+
+                  <div>
+                    <Image src={attach} className="image-style" fluid />
+                  </div>
+                </div>
+                <input
+                  onChange={handleOnChange}
+                  placeholder="Attach Book File"
+                  className="rounded input-form-file mb-3"
+                  type="file"
+                  name="doc"
+                  hidden
+                />
+              </label>
+            ) : (
+              <div
+                style={{ overflow: "hidden", width: "270px", height: "330px" }}
+              >
+                <Document file={preview}>
+                  <Page pageNumber={1} />
+                </Document>
+              </div>
+            )}
+
+            <Button
+              className="button-form"
+              onClick={handleOnSubmit}
+              variant="danger"
+            >
+              Add Literature
+            </Button>
+          </div>
         </form>
-        <div className="d-flex justify-content-end">
-          <Button
-            className="button-form"
-            onClick={handleOnSubmit}
-            variant="danger"
-          >
-            Add Literature
-          </Button>
-        </div>
       </Container>
     </>
   );

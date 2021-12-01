@@ -45,9 +45,35 @@
   border: 2px solid #bcbcbc;
   color: white;
 }
+.input-form-file {
+  width: 30%;
+  padding: 10px;
+  background-color: rgba(210, 210, 210, 0.25);
+  border: 2px solid #bcbcbc;
+  color: white;
+}
 
 .button-form {
   background-color: #af2e1c;
   width: 192px;
   height: 50px;
+}
+
+.container-image {
+  cursor: pointer;
+  width: 200px;
+  height: 40px;
+  color: white;
+  background-color: rgba(210, 210, 210, 0.25);
+  padding: 8px;
+  margin-left: -15px;
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid #bcbcbc;
+}
+
+.image-style {
+  height: 15px;
+  width: 15px;
+  margin-bottom: 8px;
 }

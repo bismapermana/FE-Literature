@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Alert } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { setAuthToken, API } from "../../config/api";
 import { AuthContext } from "../../context/AuthContext";
@@ -8,6 +8,7 @@ import "./Modal.css";
 const Login = ({ showLogin, setshowLogin, showModalRegister }) => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [state, dispatch] = useContext(AuthContext);
+  const [errorAlert, setErrorAlert] = useState(false);
   const history = useHistory();
 
   const handleOnChange = (e) => {
@@ -48,7 +49,10 @@ const Login = ({ showLogin, setshowLogin, showModalRegister }) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      setErrorAlert(true);
+      setTimeout(() => {
+        setErrorAlert(false);
+      }, 3000);
     }
   };
 
@@ -66,17 +70,22 @@ const Login = ({ showLogin, setshowLogin, showModalRegister }) => {
           <h1 style={{ color: "white" }}>Sign In</h1>
         </Modal.Header>
         <Modal.Body className="background-modal">
+          {errorAlert && (
+            <Alert variant="danger" style={{ height: "50px" }}>
+              <p>Wrong email and password!</p>
+            </Alert>
+          )}
           <form>
             <input
               placeholder="Email"
-              className="rounded mb-3 input-style"
+              className="rounded mb-3 input-styles"
               type="email"
               name="email"
               onChange={handleOnChange}
             />
             <input
               placeholder="Password"
-              className="rounded input-style"
+              className="rounded input-styles"
               type="password"
               name="password"
               onChange={handleOnChange}

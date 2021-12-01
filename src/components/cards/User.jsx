@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Image, Button } from "react-bootstrap";
 import email from "../../assets/email.png";
 import gender from "../../assets/gender.png";
 import address from "../../assets/address.png";
 import phone from "../../assets/phone.png";
 import "./card.css";
+import profile from "../../assets/profile.png";
+import EditProfile from "../modal/EditProfile";
 
 const User = ({ data, getData }) => {
+  const [showModalEdit, setModalEdit] = useState(false);
+  const handleShowModal = () => setModalEdit(true);
+  const handleCloseModal = () => setModalEdit(false);
+
   return (
     <>
       <Container className="mt-5">
@@ -73,17 +79,41 @@ const User = ({ data, getData }) => {
           </div>
           <div>
             <div>
-              <Image
-                style={{ width: "226px", height: "250px", marginBottom: "5px" }}
-                src={data.profilePicture}
-              />
+              {data.profilePicture === null ? (
+                <Image
+                  style={{
+                    width: "226px",
+                    height: "250px",
+                    marginBottom: "5px",
+                  }}
+                  src={profile}
+                />
+              ) : (
+                <Image
+                  style={{
+                    width: "226px",
+                    height: "250px",
+                    marginBottom: "5px",
+                  }}
+                  src={data.profilePicture}
+                />
+              )}
             </div>
-            <Button className="button-user" variant="danger">
-              Change Photo Profile
+            <Button
+              onClick={handleShowModal}
+              className="button-user"
+              variant="danger"
+            >
+              Change Profile
             </Button>
           </div>
         </div>
       </Container>
+      <EditProfile
+        showModalEdit={showModalEdit}
+        handleCloseModal={handleCloseModal}
+        getData={getData}
+      />
     </>
   );
 };

@@ -15,16 +15,13 @@
   font-weight: bolder;
 }
 
-.input-styles {
+.input-style {
   background-color: rgba(210, 210, 210, 0.25);
   border: 2px solid #bcbcbc;
-  padding: 10px;
-  width: 100%;
-  color: antiquewhite;
-}
-
-.select-styles {
-  background-color: rgba(210, 210, 210, 0.25);
+  padding: 5px;
+  width: 70%;
+  margin-bottom: 10px;
+  border-radius: 5px;
   color: antiquewhite;
 }
 

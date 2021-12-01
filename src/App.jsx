@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Search from "./pages/Search";
 import Profile from "./pages/Profile";
@@ -10,6 +10,9 @@ import SearchResult from "./pages/SearchResult";
 import DetailLiterature from "./pages/DetailLiterature";
 import Collection from "./pages/Collection";
 import Admin from "./pages/admin/Admin";
+import { pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const App = () => {
   const [state, dispatch] = useContext(AuthContext);
@@ -33,8 +36,6 @@ const App = () => {
     };
     checkUser();
   }, [dispatch]);
-
-  console.log(state);
 
   return (
     <>

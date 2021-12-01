@@ -20,7 +20,10 @@ const Profile = () => {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "black" }}>
+    <div
+      className="pb-5"
+      style={{ minHeight: "100vh", backgroundColor: "black" }}
+    >
       <Navbars />
       <User getData={getData} data={data} />
       <Literature />

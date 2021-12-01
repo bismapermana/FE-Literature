@@ -4,13 +4,15 @@ import Navbars from "../components/Navbars";
 import action from "../assets/action.png";
 import { API } from "../config/api";
 import { useHistory, useLocation } from "react-router";
+import { Document, Page } from "react-pdf";
 import { Link } from "react-router-dom";
 import "./pages.css";
 
 const SearchResult = () => {
   const [data, setData] = useState([]);
   const [date, setDate] = useState([]);
-  const [searchbar, setSearchbar] = useState("");
+  const [selectDate, setSelectDate] = useState("");
+  const [searchbar, setSearchbar] = useState("/literature?title=");
   const history = useHistory();
   const { search } = useLocation();
 
@@ -18,29 +20,34 @@ const SearchResult = () => {
     setSearchbar("/literature?title=" + e.target.value);
   };
 
+  const handleOnChangeDate = (e) => {
+    setSelectDate(e.target.value);
+  };
+
   const searchParams = new URLSearchParams(search);
   const title = searchParams.get("title");
 
+  //  DATA FILTERING
   const dataFilter = data.filter((item) => {
     return item.title.toLowerCase().includes(title);
   });
+  const filterDate = Array.from(new Set(date));
 
+  const getData = async () => {
+    try {
+      const response = await API.get("/documents");
+
+      setData(response.data.documents);
+
+      const dateResponse = response.data.documents.map((item) => {
+        return item.publicationDate.substring(0, 4);
+      });
+      setDate(dateResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await API.get("/documents");
-
-        setData(response.data.documents);
-
-        const dateResponse = response.data.documents.map((item) => {
-          return item.publicationDate.substring(0, 4);
-        });
-        setDate(dateResponse);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getData();
   }, []);
 
@@ -48,11 +55,14 @@ const SearchResult = () => {
     history.push("/details/" + id);
   };
 
-  const findDuplicates = date.filter((item, idx) => item.indexOf(item) === idx);
-
   return (
     <>
-      <div style={{ minHeight: "100vh", backgroundColor: "black" }}>
+      <div
+        style={{
+          minHeight: "100vh",
+          backgroundColor: "black",
+        }}
+      >
         <Navbars />
         <div>
           <form>
@@ -75,39 +85,77 @@ const SearchResult = () => {
           <div style={{ width: "10%" }}>
             <p className="text-anytime">Anytime</p>
             <Form>
-              <Form.Select size="sm" className="form-select">
-                <option disabled>Date</option>
-                {findDuplicates.map((item) => (
-                  <option>{item}</option>
+              <Form.Select
+                variant="dark"
+                onChange={handleOnChangeDate}
+                size="sm"
+                className="form-select"
+              >
+                <option className="option-select" value="">
+                  All
+                </option>
+                {filterDate.map((item) => (
+                  <option className="option-select" value={item}>
+                    {item}
+                  </option>
                 ))}
               </Form.Select>
             </Form>
           </div>
-          <Container style={{ width: "90%" }}>
+          <Container className="mb-5" style={{ width: "90%" }}>
             <Row>
-              {dataFilter
-                .filter((item) => item.status === "Approved")
-                .map((item) => (
-                  <Col md={3} className="mt-5 ">
-                    <Card
-                      style={{ cursor: "pointer", backgroundColor: "black" }}
-                      className="w-100"
-                      onClick={() => handleOnClick(item.id)}
-                    >
-                      <iframe
-                        name="data"
-                        height="300px"
-                        width="100%"
-                        src={item.attachment}
-                      ></iframe>
-                      <p className="result-text-title">{item.title}</p>
-                      <div className="result-text-desc d-flex justify-content-between">
-                        <span>{item.users.fullName}</span>
-                        <span>{item.publicationDate.substring(0, 4)}</span>
-                      </div>
-                    </Card>
-                  </Col>
-                ))}
+              {selectDate === ""
+                ? dataFilter.map((item) => (
+                    <Col md={3} className="mt-5 ">
+                      <Card
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "black",
+                          overflow: "hidden",
+                        }}
+                        className="w-100"
+                        onClick={() => handleOnClick(item.id)}
+                      >
+                        <div className="container-pdf">
+                          <Document file={item.attachment}>
+                            <Page pageNumber={1} />
+                          </Document>
+                        </div>
+                        <p className="result-text-title">{item.title}</p>
+                        <div className="result-text-desc d-flex justify-content-between">
+                          <span>{item.users.fullName}</span>
+                          <span>{item.publicationDate.substring(0, 4)}</span>
+                        </div>
+                      </Card>
+                    </Col>
+                  ))
+                : dataFilter
+                    .filter(
+                      (item) =>
+                        item.publicationDate.substring(0, 4) === selectDate
+                    )
+                    .map((item) => (
+                      <Col md={3} className="mt-5 ">
+                        <Card
+                          style={{
+                            cursor: "pointer",
+                            backgroundColor: "black",
+                            overflow: "hidden",
+                          }}
+                          className="w-100"
+                          onClick={() => handleOnClick(item.id)}
+                        >
+                          <Document file={item.attachment}>
+                            <Page pageNumber={1} />
+                          </Document>
+                          <p className="result-text-title">{item.title}</p>
+                          <div className="result-text-desc d-flex justify-content-between">
+                            <span>{item.users.fullName}</span>
+                            <span>{item.publicationDate.substring(0, 4)}</span>
+                          </div>
+                        </Card>
+                      </Col>
+                    ))}
             </Row>
           </Container>
         </div>

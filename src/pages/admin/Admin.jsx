@@ -23,7 +23,7 @@ const Admin = () => {
 
   const getData = async () => {
     try {
-      const response = await API.get("/documents");
+      const response = await API.get("/allDocuments");
       setData(response.data.documents.reverse());
     } catch (error) {
       console.log(error);
@@ -110,7 +110,7 @@ const Admin = () => {
                   <th className="py-4">ISBN</th>
                   <th className="py-4">Literature</th>
                   <th className="py-4">Status</th>
-                  <th className="py-4">Action</th>
+                  <th className="py-4 text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -121,7 +121,9 @@ const Admin = () => {
                     <td>{item.author}</td>
                     <td>{item.ISBN}</td>
                     <td>
-                      <a href={item.attachment}>{item.title}.pdf</a>
+                      <a href={item.attachment} target="_blank">
+                        {item.title}.pdf
+                      </a>
                     </td>
                     <td>
                       {item.status === "waiting to be verified" ? (
@@ -151,7 +153,11 @@ const Admin = () => {
                           <Button
                             onClick={() => validationData(item.id, "Approved")}
                             variant="success"
-                            style={{ width: "40%", color: "black" }}
+                            style={{
+                              width: "40%",
+                              color: "black",
+                              fontSize: "13px",
+                            }}
                           >
                             <b> Approve </b>
                           </Button>

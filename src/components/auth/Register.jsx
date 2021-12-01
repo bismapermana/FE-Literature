@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
-import { API } from "../../config/api";
+import React, { useContext, useState } from "react";
+import { Button, Modal, Alert } from "react-bootstrap";
+import { useHistory } from "react-router";
+import { API, setAuthToken } from "../../config/api";
+import { AuthContext } from "../../context/AuthContext";
 import "./Modal.css";
 
 const Register = ({ showRegister, setShowRegister, showModalLogin }) => {
@@ -12,6 +14,11 @@ const Register = ({ showRegister, setShowRegister, showModalLogin }) => {
     address: "",
     gender: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorAlert, setErrorAlert] = useState(false);
+
+  const history = useHistory();
+  const [state, dispatch] = useContext(AuthContext);
 
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -30,13 +37,26 @@ const Register = ({ showRegister, setShowRegister, showModalLogin }) => {
           "Content-type": "application/json",
         },
       };
-
       const response = await API.post("/register", form, config);
-      console.log(response);
+      setAuthToken(response.data.token);
+      const getData = await API.get("/user");
+
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: getData.data.users,
+      });
+      localStorage.setItem("token", response.data.token);
+
+      history.push("/search");
 
       setShowRegister(false);
     } catch (error) {
-      console.log(error);
+      const message = error.response.data.message;
+      setErrorAlert(true);
+      setErrorMessage(message);
+      setTimeout(() => {
+        setErrorAlert(false);
+      }, 3000);
     }
   };
 
@@ -54,20 +74,25 @@ const Register = ({ showRegister, setShowRegister, showModalLogin }) => {
           <h1 style={{ color: "white" }}>Sign Up</h1>
         </Modal.Header>
         <Modal.Body className="background-modal">
+          {errorAlert && (
+            <Alert clos variant="danger" style={{ height: "50px" }}>
+              <p>{errorMessage}</p>
+            </Alert>
+          )}
           <form>
             <input
               onChange={handleOnChange}
               placeholder="FullName"
               type="text"
               name="fullName"
-              className="rounded input-style mb-3"
+              className="rounded input-styles mb-3"
             />
             <input
               onChange={handleOnChange}
               placeholder="Email"
               type="email"
               name="email"
-              className="rounded input-style mb-3"
+              className="rounded input-styles mb-3"
             />
 
             <input
@@ -75,25 +100,51 @@ const Register = ({ showRegister, setShowRegister, showModalLogin }) => {
               placeholder="Password"
               type="password"
               name="password"
-              className="rounded input-style mb-3"
+              className="rounded input-styles mb-3"
             />
             <input
               onChange={handleOnChange}
               placeholder="Phone"
               type="number"
               name="phone"
-              className="rounded input-style mb-3"
+              className="rounded input-styles mb-3"
             />
-            <input
-              placeholder="gender"
-              className="rounded input-style mb-3"
-              type="text"
+            <select
+              className="rounded input-styles mb-3"
+              type="select"
               name="gender"
               onChange={handleOnChange}
-            />
+            >
+              <option
+                style={{
+                  color: "black",
+                }}
+                value="male"
+                disabled
+                selected
+              >
+                Gender
+              </option>
+              <option
+                style={{
+                  color: "black",
+                }}
+                value="male"
+              >
+                Male
+              </option>
+              <option
+                style={{
+                  color: "black",
+                }}
+                value="female"
+              >
+                Female
+              </option>
+            </select>
             <input
               placeholder="Address"
-              className="rounded input-style"
+              className="rounded input-styles"
               type="text"
               name="address"
               onChange={handleOnChange}
